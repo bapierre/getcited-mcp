@@ -1,0 +1,12 @@
+{
+  "name": "getcited",
+  "version": "0.1.0",
+  "description": "Audit a site for SEO and AI-engine visibility, work the queue of measured problems, and check whether the fixes moved anything.",
+  "mcpServers": {
+    "getcited": {
+      "httpUrl": "https://app.getcited.dev/api/mcp",
+      "headers": { "Authorization": "Bearer ${SEO_API_KEY}" },
+      "timeout": 30000
+    }
+  }
+}

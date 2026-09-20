@@ -1,0 +1,42 @@
+{
+  "name": "getcited-mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for GetCited: audits, action queue, rank tracking and AI-engine visibility for your agent.",
+  "mcpName": "dev.getcited/mcp",
+  "license": "MIT",
+  "homepage": "https://getcited.dev/docs/mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bapierre/getcited-mcp.git"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "seo",
+    "geo",
+    "generative-engine-optimization",
+    "rank-tracking",
+    "site-audit"
+  ],
+  "type": "module",
+  "bin": {
+    "getcited-mcp": "dist/stdio.js"
+  },
+  "files": [
+    "dist/stdio.js",
+    "dist/stdio.d.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.2",
+    "typescript": "5.9.3"
+  }
+}

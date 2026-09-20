@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "getcited",
+  "displayName": "GetCited",
+  "version": "0.1.0",
+  "description": "Connects Claude Code to the GetCited operator: pull a prioritized queue of measured SEO and GEO problems for your site, fix them in your own codebase, and close them out. Adds skills for the action-queue loop and for reading AI answer engine visibility data.",
+  "author": {
+    "name": "GetCited",
+    "email": "support@getcited.dev",
+    "url": "https://getcited.dev"
+  },
+  "homepage": "https://getcited.dev",
+  "repository": "https://github.com/bapierre/getcited-mcp",
+  "license": "MIT",
+  "keywords": [
+    "seo",
+    "geo",
+    "aeo",
+    "ai-search",
+    "site-audit",
+    "mcp"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "getcited": {
+      "type": "http",
+      "url": "${SEO_API_URL:-https://app.getcited.dev/api/mcp}",
+      "headers": {
+        "Authorization": "Bearer ${SEO_API_KEY}"
+      }
+    }
+  }
+}

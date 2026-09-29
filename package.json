@@ -24,13 +24,16 @@
   },
   "files": [
     "dist/stdio.js",
-    "dist/stdio.d.ts"
+    "dist/stdio.d.ts",
+    "dist/tool-snapshot.js",
+    "dist/tool-snapshot.d.ts"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "snapshot": "node scripts/snapshot-tools.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.30.0"

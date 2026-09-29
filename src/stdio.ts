@@ -5,12 +5,17 @@
  * A published package has no database access, so this is a proxy: it connects
  * as an MCP client to the hosted Streamable HTTP endpoint with the user's API
  * key and re-exposes whatever tools that endpoint advertises over stdio.
+ *
+ * Without a key it still starts, so registries can introspect it: tools/list
+ * answers from a bundled snapshot of the hosted tools and every tools/call
+ * answers with an error saying the key is missing. Nothing leaves the machine.
  */
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
+import { TOOL_SNAPSHOT } from "./tool-snapshot.js";
 
 const NAME = "getcited";
 const VERSION = "0.1.0";
@@ -34,13 +39,33 @@ function readApiUrl(): URL {
   }
 }
 
+const MISSING_KEY =
+  "SEO_API_KEY is not set. Create an API key in your GetCited settings and " +
+  "pass it to this process, e.g. SEO_API_KEY=vseo_... npx getcited-mcp";
+
+async function serveOffline(): Promise<void> {
+  process.stderr.write(
+    `${NAME}-mcp: ${MISSING_KEY}\n${NAME}-mcp: listing the bundled tool definitions; every tool call will fail until the key is set.\n`,
+  );
+
+  const server = new Server({ name: NAME, version: VERSION }, { capabilities: { tools: {} } });
+  server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOL_SNAPSHOT }));
+  server.setRequestHandler(CallToolRequestSchema, async () => ({
+    isError: true,
+    content: [{ type: "text", text: MISSING_KEY }],
+  }));
+
+  try {
+    await server.connect(new StdioServerTransport());
+  } catch (e) {
+    fail(`could not start the stdio transport: ${describe(e)}`);
+  }
+}
+
 export async function main(): Promise<void> {
   const apiKey = process.env.SEO_API_KEY?.trim();
   if (!apiKey) {
-    fail(
-      "SEO_API_KEY is not set. Create an API key in your GetCited settings and " +
-        "pass it to this process, e.g. SEO_API_KEY=vseo_... npx getcited-mcp",
-    );
+    return serveOffline();
   }
 
   const url = readApiUrl();

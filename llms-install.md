@@ -18,11 +18,14 @@ This MCP server exposes that queue and its underlying data to you.
 fix, and it never proposes copy or code. You decide how to fix each item — you
 know the codebase and the product direction, the platform does not.
 
-Tools: `list_projects`, `add_project`, `get_site_health`, `list_actions`, `get_action`,
-`claim_action`, `complete_action`, `dismiss_action`, `run_audit`, `add_keywords`,
-`list_keywords`, `rank_history`, `add_geo_prompts`, `geo_summary`,
-`get_behavior_digest`, `get_page_profile`, `check_rankings`, `check_geo`,
-`run_brain`.
+Tools: `list_projects`, `add_project`, `remove_project`, `get_site_health`,
+`get_setup_status`, `get_project_profile`, `set_project_profile`,
+`get_next_work`, `list_actions`, `get_action`, `claim_action`,
+`complete_action`, `dismiss_action`, `run_audit`, `list_opportunities`,
+`get_content_brief`, `list_regressions`, `get_page_history`, `add_keywords`,
+`list_keywords`, `rank_history`, `check_rankings`, `add_geo_prompts`,
+`geo_summary`, `check_geo`, `run_brain`, `get_behavior_digest`,
+`get_page_profile`.
 
 The typical loop: `list_projects` → `list_actions` → `claim_action` → apply the
 change in the repo → `complete_action`.
@@ -388,7 +391,7 @@ Verify with `/mcp` inside the Gemini CLI.
 |---|---|---|
 | `401` / `Unauthorized` | key missing, revoked, or sent without the `Bearer ` prefix | Re-check the header is exactly `Authorization: Bearer vseo_...`. Regenerate the key on Settings → API keys. |
 | Server shows as connected but has no tools | client connected to the wrong URL | The path is `/api/mcp`, on `app.getcited.dev`, not the marketing domain. |
-| stdio server exits immediately | `SEO_API_KEY` not set | The proxy exits with a message naming the variable. Set it in the `env` block of the client config. |
+| stdio server lists tools but every call fails with "SEO_API_KEY is not set" | `SEO_API_KEY` not set | Without a key the proxy only serves the bundled tool list. Set it in the `env` block of the client config. |
 | `command not found: npx` | Node not installed | Install Node 22+, or switch to the remote transport, which needs no runtime. |
 | A quota error from a tool | plan limit reached | Metered operations are capped per plan. The user upgrades in the app; do not retry in a loop. |
 | `run_audit` queues but nothing happens | worker not running (self-hosted/dev only) | On the hosted service this is automatic. |

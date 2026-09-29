@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run build
+      - name: Validate JSON manifests
+        run: |
+          for f in glama.json .mcp.json gemini-extension.json .claude-plugin/plugin.json package.json; do
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf8'))" && echo "ok $f"
+          done
+      - name: Proxy refuses to start without SEO_API_KEY
+        run: |
+          if node dist/stdio.js </dev/null; then echo "expected a non-zero exit"; exit 1; fi

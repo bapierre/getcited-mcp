@@ -1,5 +1,7 @@
 # GetCited MCP connector
 
+[![GetCited MCP server on Glama](https://glama.ai/mcp/servers/bapierre/getcited-mcp/badges/score.svg)](https://glama.ai/mcp/servers/bapierre/getcited-mcp)
+
 Client-side pieces for connecting a coding agent to [GetCited](https://getcited.dev):
 the MCP server definition, a Claude Code plugin with its skills, a Gemini CLI
 extension, and a small stdio proxy for clients that cannot speak Streamable HTTP.
@@ -71,12 +73,15 @@ your assistant to set this up rather than doing it yourself.
 
 ## The tools
 
-Sites (`list_projects`, `add_project`, `remove_project`, `get_site_health`), the
-queue (`list_actions`, `get_action`, `claim_action`, `complete_action`,
-`dismiss_action`, `run_audit`), rankings (`add_keywords`, `list_keywords`,
-`rank_history`, `check_rankings`), AI visibility (`add_geo_prompts`,
-`geo_summary`, `check_geo`, `run_brain`) and visitors (`get_behavior_digest`,
-`get_page_profile`).
+Sites (`list_projects`, `add_project`, `remove_project`, `get_site_health`),
+onboarding and profile (`get_setup_status`, `get_project_profile`,
+`set_project_profile`), the queue (`get_next_work`, `list_actions`,
+`get_action`, `claim_action`, `complete_action`, `dismiss_action`,
+`run_audit`), growth (`list_opportunities`, `get_content_brief`,
+`list_regressions`, `get_page_history`), rankings (`add_keywords`,
+`list_keywords`, `rank_history`, `check_rankings`), AI visibility
+(`add_geo_prompts`, `geo_summary`, `check_geo`, `run_brain`) and visitors
+(`get_behavior_digest`, `get_page_profile`).
 
 Each tool carries a `title` and the `readOnlyHint` or `destructiveHint`
 annotation that matches what it does. Full documentation, including what every
